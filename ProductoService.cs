@@ -37,41 +37,19 @@ namespace BlazorApp1.Data.Service
                 parameters.Add("Stock", producto.Stock, DbType.Int32);
                 parameters.Add("Marca", producto.Marca, DbType.String);
                 parameters.Add("Precio", producto.Precio, DbType.String);
-                parameters.Add("Color", producto.Color, DbType.String);
 
-                const string query = @"INSERT INTO Producto (IdProducto, NombreProducto, Descripcion , Stock ) VALUES (@IdProducto, @NombreProducto, @Descripcion, @Stock, @Marca, @Precio, @Color)";
-                await conn.ExecuteAsync(query, new { producto.IdProducto, producto.NombreProducto, producto.Descripcion, producto.Stock, producto.Marca, producto.Precio, producto.Color}, commandType: CommandType.Text);
+                const string query = @"INSERT INTO Producto (IdProducto, NombreProducto, Descripcion , Stock ) VALUES (@IdProducto, @NombreProducto, @Descripcion, @Stock, @Marca, @Precio )";
+                await conn.ExecuteAsync(query, new { producto.IdProducto, producto.NombreProducto, producto.Descripcion, producto.Stock, producto.Marca, producto.Precio }, commandType: CommandType.Text);
             }
 
             return true;
         }
 
-        public async Task<Producto> ProductoSelect(String Marca)
+        public async Task<Producto> ProductoSelect(int id)
         {
             using (var conn = new SqlConnection(_configuration.Value))
             {
-                var query = @"SELECT IdProducto, NombreProducto,MarcaProducto
-                            FROM Producto
-                            WHERE IdProducto = @IdProducto";
-                return await conn.QueryFirstOrDefaultAsync<Producto>(query.ToString(), new { IdProducto = id }, commandType: CommandType.Text);
-            }
-        }
-         public async Task<Producto> ProductoSelect(String color)
-        {
-            using (var conn = new SqlConnection(_configuration.Value))
-            {
-                var query = @"SELECT IdProducto, NombreProducto,ColorProducto
-                            FROM Producto
-                            WHERE IdProducto = @IdProducto";
-                return await conn.QueryFirstOrDefaultAsync<Producto>(query.ToString(), new { IdProducto = id }, commandType: CommandType.Text);
-            }
-        }
-         public async Task<Producto> ProductoSelect(String Precio
-             )
-        {
-            using (var conn = new SqlConnection(_configuration.Value))
-            {
-                var query = @"SELECT IdProducto, NombreProducto,PrecioProducto
+                var query = @"SELECT IdProducto, NombreProducto, ApellidoProducto
                             FROM Producto
                             WHERE IdProducto = @IdProducto";
                 return await conn.QueryFirstOrDefaultAsync<Producto>(query.ToString(), new { IdProducto = id }, commandType: CommandType.Text);
